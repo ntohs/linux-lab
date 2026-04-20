@@ -1,0 +1,52 @@
+@startuml uml
+top to bottom direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam defaultTextAlignment center
+
+actor User
+
+rectangle "Web Browser\nDashboard" as Browser
+
+package "Raspberry Pi Application" {
+  rectangle "Web UI\nFastAPI + Uvicorn" as WebUI
+  rectangle "Main App\nProcess Manager" as MainApp
+  rectangle "System Server\nThreads / MQ / Timer" as SystemSrv
+  rectangle "Network Monitor\nEpoll + Netlink + mmap" as NetMon
+  rectangle "Shared Status\nJSON / Shared Memory" as StatusStore
+}
+
+package "Optional AP Control" {
+  rectangle "wlinkd" as Wlinkd
+  rectangle "hostapd" as Hostapd
+}
+
+package "Linux / Driver Layer" {
+  rectangle "Netlink\nRoute events" as Netlink
+  rectangle "nl80211 / iw\nWi-Fi stats" as Nl80211
+  rectangle "Ethernet Driver" as EthDrv
+  rectangle "Wi-Fi Driver" as WifiDrv
+}
+
+User --> Browser
+Browser --> WebUI
+WebUI --> StatusStore
+MainApp --> SystemSrv
+MainApp --> NetMon
+NetMon --> StatusStore
+
+NetMon --> Netlink
+NetMon --> Nl80211
+Netlink --> EthDrv
+Netlink --> WifiDrv
+Nl80211 --> WifiDrv
+
+WebUI --> Wlinkd : optional
+Wlinkd --> Hostapd : AP mode only
+
+note right of Hostapd
+  AP 제어가 필요할 때만 사용
+  일반 모니터링에는 불필요
+end note
+
+@enduml
