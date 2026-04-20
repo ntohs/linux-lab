@@ -1,0 +1,33 @@
+/*
+ * Based on KDT Linux Expert Course.
+ * Origin: Android Open Source Project (AOSP) - dumpstate
+ * Copyright (c) 2026, Jaewon Park <pf0119@gmail.com>
+ *
+ * This software may be distributed under the terms of the BSD license.
+ * See LICENSE for more details.
+ */
+
+#ifndef DUMPSTATE_H
+#define DUMPSTATE_H
+
+#define KLOG_CLOSE         0
+#define KLOG_OPEN          1
+#define KLOG_READ          2
+#define KLOG_READ_ALL      3
+#define KLOG_READ_CLEAR    4
+#define KLOG_CLEAR         5
+#define KLOG_CONSOLE_OFF   6
+#define KLOG_CONSOLE_ON    7
+#define KLOG_CONSOLE_LEVEL 8
+#define KLOG_SIZE_UNREAD   9
+#define KLOG_SIZE_BUFFER   10
+
+#define KLOG_DISABLE 6
+#define KLOG_ENABLE 7
+#define KLOG_SETLEVEL 8
+#define KLOG_UNREADSIZE 9
+#define KLOG_WRITE 10
+
+void dumpstate();
+
+#endif /* DUMPSTATE_H */
